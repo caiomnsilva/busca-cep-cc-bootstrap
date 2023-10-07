@@ -17,8 +17,6 @@
   })
 })()
 
-$("#cidades").hide()
-
 function buscaCep() {
    const cepInput = document.getElementById("cep");
    const cep = cepInput.value;
@@ -71,7 +69,6 @@ fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municip
 				list += `<option value="${cidade.nome}">${cidade.nome}</option>`
 			}
 			$("#cidades").html(list)})
-  $("#cidades").show()
 }
 
 
@@ -88,11 +85,31 @@ function limparResultado(){
   }
 }
 
+function limpaAlertEstado(){
+  document.getElementById("ufs").classList.remove("is-invalid");
+}
+
+function limpaAlertCidade(){
+  document.getElementById("cidades").classList.remove("is-invalid");
+}
+
+
 function buscaRua() {
 	estado = document.getElementById("ufs").value.split("-")[1]
 	municipio = document.getElementById("cidades").value
 	rua = document.getElementById("rua").value
 	result = document.getElementById("result")
+
+  ufsSelect = document.getElementById("ufs").value
+  cidadesSelect = document.getElementById("cidades").value
+
+  if (ufsSelect === "Selecione o estado" && cidadesSelect === "Selecione a cidade"){
+     document.getElementById("ufs").classList.add("is-invalid")
+     document.getElementById("cidades").classList.add("is-invalid")
+   }else if(cidadesSelect === "Selecione a cidade"){
+     document.getElementById("cidades").classList.add("is-invalid")
+   }
+
   
 	fetch(`https://viacep.com.br/ws/${estado}/${municipio}/${rua}/json/`)
 		.then((res) => { return res.json() })
@@ -101,7 +118,7 @@ function buscaRua() {
             document.getElementById("rua").classList.add("is-invalid");
             document.getElementById("validation02").textContent = "Rua não encontrada ou sem informações.";
             result.innerHTML = "";
-         } else {
+         }else{
             document.getElementById("rua").classList.remove("is-invalid");
             document.getElementById("validation02").textContent = "";
             result.innerHTML = mountListRuas(ceps);

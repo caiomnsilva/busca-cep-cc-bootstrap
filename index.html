@@ -60,7 +60,7 @@
 				<br>
 				<br>
 				<div class="input-group mb-3">
-					<select onchange="mudaUF(event)" id="ufs" class="form-select" aria-label="Default select example">
+					<select onchange="mudaUF(event), limpaAlertEstado()" id="ufs" class="form-select" aria-label="Default select example" required>
 						<option selected>Open this select menu</option>
 						<option value="1">One</option>
 						<option value="2">Two</option>
@@ -68,7 +68,7 @@
 					</select>
 				</div>
         <div class="input-group mb-3">
-					<select id="cidades" class="form-select" aria-label="Default select example">
+					<select id="cidades" onchange="limpaAlertCidade()" class="form-select" aria-label="Default select example" required>
 						<option selected>Selecione a cidade</option>
 						<option value="1">One</option>
 						<option value="2">Two</option>

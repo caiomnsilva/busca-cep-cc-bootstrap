@@ -50,9 +50,10 @@
 				<br>
 				<div class="input-group mb-3">
 					<span class="input-group-text" id="basic-addon1">CEP</span>
-					<input id="cep" type="text" class="form-control" placeholder="Ex: 51030300" aria-label="cep"
-						aria-describedby="basic-addon1">
+					<input id="cep" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" type="text" class="form-control" placeholder="Ex: 51030300" aria-label="cep"
+						aria-describedby="basic-addon1" required>
 					<button onclick="buscaCep()" type="button" class="btn btn-primary"><i style="margin-right: '5px';" class="bi-search"></i> Enviar</button>
+          <div id="validation01" class="invalid-feedback">Por favor, insira um CEP válido.</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="rua-content" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
@@ -78,8 +79,9 @@
 				<div class="input-group mb-3">
 					<span class="input-group-text" id="basic-addon1">RUA</span>
 					<input id="rua" type="text" class="form-control" placeholder="Ex: Barão" aria-label="cep"
-						aria-describedby="basic-addon1">
+						aria-describedby="basic-addon1" required>
 					<button onclick="buscaRua()" type="button" class="btn btn-primary"><i style="margin-right: '5px';" class="bi-search"></i> Enviar</button>
+          <div id="validation02" class="invalid-feedback">Por favor, insira uma Rua.</div>
 				</div>
 			</div>
 		</div>

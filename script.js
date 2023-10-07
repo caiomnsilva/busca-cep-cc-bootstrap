@@ -1,12 +1,51 @@
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
 $("#cidades").hide()
 
 function buscaCep() {
-	cep = document.getElementById("cep").value
-	result = document.getElementById("result")
-	fetch(`https://viacep.com.br/ws/${cep}/json/`)
-		.then((res) => { return res.json() })
-		.then((cep) => { result.innerHTML = mountList(cep) })
+   const cepInput = document.getElementById("cep");
+   const cep = cepInput.value;
+
+   const cepPattern = /^[0-9]{8}$/;
+   const cepValido = cepPattern.test(cep);
+
+   if (cepValido) {
+      document.getElementById("cep").classList.remove("is-invalid");
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+         .then((res) => { return res.json() })
+         .then((cep) => {
+            if (cep.erro) {
+               document.getElementById("cep").classList.add("is-invalid");
+               document.getElementById("validation01").textContent = "CEP não encontrado.";
+               result.innerHTML = "";
+            } else {
+               result.innerHTML = mountList(cep);
+            }
+         })
+   } else {
+      document.getElementById("cep").classList.add("is-invalid");
+      document.getElementById("validation01").textContent = "Por favor, insira um CEP válido.";
+      result.innerHTML = "";
+   }
 }
+
 
 function buscaUF() {
 	fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados`)
@@ -51,22 +90,23 @@ function limparResultado(){
 
 function buscaRua() {
 	estado = document.getElementById("ufs").value.split("-")[1]
-	municipio = document.getElementById("cidades").value.trim()
+	municipio = document.getElementById("cidades").value
 	rua = document.getElementById("rua").value
 	result = document.getElementById("result")
   
 	fetch(`https://viacep.com.br/ws/${estado}/${municipio}/${rua}/json/`)
 		.then((res) => { return res.json() })
     .then((ceps) => {
-      // Verificar se o retorno está vazio ou não tem logradouro
-      if (!ceps || !ceps[0] || !ceps[0].logradouro) {
-        result.innerHTML = `<div class="card" style="width: 100%;">
-            <h3 style="text-align: center">Rua não encontrada</h3>
-            </div>`;
-      } else {
-        result.innerHTML = mountListRuas(ceps);
-      }
-    })
+    if (!ceps || !ceps[0] || !ceps[0].logradouro) {
+            document.getElementById("rua").classList.add("is-invalid");
+            document.getElementById("validation02").textContent = "Rua não encontrada ou sem informações.";
+            result.innerHTML = "";
+         } else {
+            document.getElementById("rua").classList.remove("is-invalid");
+            document.getElementById("validation02").textContent = "";
+            result.innerHTML = mountListRuas(ceps);
+         }
+      })
 }
 
 function mountList(cep) {
@@ -75,6 +115,7 @@ function mountList(cep) {
 	list = `
 			<div class="card" style="width: 100%;">
   			<ul class="list-group list-group-flush">
+          <li class="list-group-item text-center"><strong>Resultado do CEP: ${cep.cep}</strong></li>
     			<li class="list-group-item">${cep.logradouro}</li>
     			<li class="list-group-item">${cep.localidade}</li>
     			<li class="list-group-item">${cep.bairro}</li>
@@ -92,7 +133,7 @@ function mountListRuas(ceps) {
       list.push(`
 			<div class="card" style="width: 100%;">
   			<ul class="list-group list-group-flush">
-    			<li class="list-group-item">${cep.logradouro}</li>
+    			<li class="list-group-item ">${cep.logradouro}</li>
     			<li class="list-group-item">${cep.cep}</li>
     			<li class="list-group-item">${cep.localidade}</li>
     			<li class="list-group-item">${cep.bairro}</li>

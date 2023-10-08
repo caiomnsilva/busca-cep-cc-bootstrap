@@ -17,13 +17,15 @@
   })
 })()
 
+$('#cep').mask('00000-000');
+
 function buscaCep() {
    const cepInput = document.getElementById("cep");
    const cep = cepInput.value;
 
-   const cepPattern = /^[0-9]{8}$/;
+   const cepPattern = /^[0-9]{5}-?[0-9]{3}$/;
    const cepValido = cepPattern.test(cep);
-
+  
    if (cepValido) {
       document.getElementById("cep").classList.remove("is-invalid");
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
@@ -102,12 +104,14 @@ function buscaRua() {
 
   ufsSelect = document.getElementById("ufs").value
   cidadesSelect = document.getElementById("cidades").value
-
+  
   if (ufsSelect === "Selecione o estado" && cidadesSelect === "Selecione a cidade"){
      document.getElementById("ufs").classList.add("is-invalid")
      document.getElementById("cidades").classList.add("is-invalid")
    }else if(cidadesSelect === "Selecione a cidade"){
      document.getElementById("cidades").classList.add("is-invalid")
+   }else if (ufsSelect === "Selecione o estado"){
+     document.getElementById("ufs").classList.add("is-invalid")
    }
 
   
@@ -160,7 +164,9 @@ function mountListRuas(ceps) {
 		`)
     }
 	return list.toString().replaceAll(",","")
-  }
+}
+
+
 
 
 

@@ -50,8 +50,7 @@
 				<br>
 				<div class="input-group mb-3">
 					<span class="input-group-text" id="basic-addon1">CEP</span>
-					<input id="cep" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '');" type="text" class="form-control" placeholder="Ex: 51030300" aria-label="cep"
-						aria-describedby="basic-addon1" required>
+					<input  id="cep" type="text" class="form-control" placeholder="Ex: 51030-300" aria-label="cep" aria-describedby="basic-addon1" onkeydown="if (event.key === 'Enter') return buscaCep();" required>
 					<button onclick="buscaCep()" type="button" class="btn btn-primary"><i style="margin-right: '5px';" class="bi-search"></i> Enviar</button>
           <div id="validation01" class="invalid-feedback">Por favor, insira um CEP válido.</div>
 				</div>
@@ -70,16 +69,13 @@
         <div class="input-group mb-3">
 					<select id="cidades" onchange="limpaAlertCidade()" class="form-select" aria-label="Default select example" required>
 						<option selected>Selecione a cidade</option>
-						<option value="1">One</option>
-						<option value="2">Two</option>
-						<option value="3">Three</option>
 					</select>
 				</div>
 				<br>
 				<div class="input-group mb-3">
 					<span class="input-group-text" id="basic-addon1">RUA</span>
 					<input id="rua" type="text" class="form-control" placeholder="Ex: Barão" aria-label="cep"
-						aria-describedby="basic-addon1" required>
+						aria-describedby="basic-addon1" onkeydown="if (event.key === 'Enter') return buscaRua();" required>
 					<button onclick="buscaRua()" type="button" class="btn btn-primary"><i style="margin-right: '5px';" class="bi-search"></i> Enviar</button>
           <div id="validation02" class="invalid-feedback">Por favor, insira uma Rua.</div>
 				</div>
@@ -90,6 +86,7 @@
 	<div class="container" id="result"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/0.9.0/jquery.mask.min.js" integrity="sha512-oJCa6FS2+zO3EitUSj+xeiEN9UTr+AjqlBZO58OPadb2RfqwxHpjTU8ckIC8F4nKvom7iru2s8Jwdo+Z8zm0Vg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="script.js"></script>
 
 </body>

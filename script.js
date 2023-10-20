@@ -128,14 +128,14 @@ function buscaRua() {
   
   if (ufsSelect === "Selecione o estado"){
      document.getElementById("ufs").classList.add("is-invalid")
-     document.getElementById("cidades").classList.add("is-invalid")
-   }else if(cidadesSelect === "Selecione a cidade"){
+   }if(cidadesSelect === ''){
      document.getElementById("cidades").classList.add("is-invalid")
    }
 
-  if(rua === ""){
+
+  if(rua === "" || rua.length <= 2){
     document.getElementById("rua").classList.add("is-invalid")
-    document.getElementById("validation02").textContent = "Digite uma rua."
+    document.getElementById("validation02").textContent = "Digite uma rua válida."
   }else{
 	fetch(`https://viacep.com.br/ws/${estado}/${municipio}/${rua}/json/`)
 		.then((res) => { return res.json() })
@@ -159,7 +159,7 @@ function mountList(cep) {
 	list = `
 			<div id="list-cep" class="card shadow mt-3" style="width: 100%;;">
   			<ul class="list-group list-group-flush">
-          <li class="list-group-item text-center"><strong>Resultado do CEP: ${cep.cep}</strong></li>
+          <li class="list-group-item text-center fw-bold">Resultado do CEP: ${cep.cep}</li>
     			<li class="list-group-item">Logradouro: ${cep.logradouro}</li>
     			<li class="list-group-item">Município: ${cep.localidade}</li>
     			<li class="list-group-item">Bairro: ${cep.bairro}</li>
